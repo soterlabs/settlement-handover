@@ -15,7 +15,7 @@ import {
 
 interface RawDebtSnapshot {
   datetime: Date;
-  debt: string | null;
+  debt: string | number | null;
 }
 
 interface RateSegment {
@@ -44,7 +44,7 @@ export async function calculateDebtFees(ctx: DebtPnLContext): Promise<DebtFeesRe
 
   const snaps: DebtSnapshot[] = raw.map((s) => ({
     timestamp: toDate(s.datetime),
-    debtUsd: parseFloat(s.debt || "0"),
+    debtUsd: parseFloat(String(s.debt ?? 0)),
   }));
 
   const sp = apyToPerSecondRate(30 / 10000);
