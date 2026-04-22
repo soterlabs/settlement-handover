@@ -1,0 +1,53 @@
+{
+  "//": [
+    "────────────────────────────────────────────────────────────────────────",
+    "Deno configuration file (equivalent to package.json + tsconfig.json).",
+    "",
+    "Deno uses a single JSON file (deno.json or deno.jsonc) as its manifest.",
+    "There is no node_modules/ and no package-lock.json; dependency versions",
+    "are pinned in `imports` below and a deno.lock file is generated next to",
+    "this config on first run.",
+    "",
+    "Key Deno features referenced here:",
+    "  - `imports`  : import-map (W3C standard). Bare specifiers like",
+    "                 'ethers' are rewritten to their canonical URL/npm spec.",
+    "  - `npm:`     : first-class npm interop. Deno downloads packages on",
+    "                 demand and caches them in the global DENO_DIR.",
+    "  - `tasks`    : `deno task <name>` replaces `npm run <name>`.",
+    "  - `compilerOptions`: forwarded to the embedded TypeScript compiler.",
+    "                 Deno bundles its own TS toolchain, so no tsc install.",
+    "",
+    "Run it with:",
+    "  deno task check    (type-check only, equivalent to `tsc --noEmit`)",
+    "  deno task smoke    (execute the smoke test)",
+    "────────────────────────────────────────────────────────────────────────"
+  ],
+  "tasks": {
+    "check": "deno check src/**/*.ts smoke.ts",
+    "smoke": "deno run --allow-net --allow-env smoke.ts",
+    "serve": "deno run --allow-net --allow-env --allow-read src/server.ts",
+    "fmt": "deno fmt src",
+    "lint": "deno lint src"
+  },
+  "imports": {
+    "bignumber.js": "npm:bignumber.js@^10.0.2",
+    "ethers": "npm:ethers@^6.15.0",
+    "kysely": "npm:kysely@^0.28.9",
+    "luxon": "npm:luxon@^3.7.2",
+    "@types/luxon": "npm:@types/luxon@^3.7.1"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["deno.window", "deno.unstable", "dom", "esnext"]
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "singleQuote": true,
+    "semiColons": true
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  }
+}
